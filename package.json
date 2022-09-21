@@ -1,0 +1,13 @@
+{
+  "type": "module",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^0.27.2",
+    "express": "^4.18.1",
+    "redis": "^4.3.1"
+  },
+  "scripts": {
+    "start": "node index.js"
+  }
+}
