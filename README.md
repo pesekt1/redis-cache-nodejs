@@ -2,6 +2,8 @@
 
 This is a simple example of how to use Redis as a cache with node.js.
 
+![Redis cache](redis-cache.png)
+
 ## Dependencies
 
 - redis
