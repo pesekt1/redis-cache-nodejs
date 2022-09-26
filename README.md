@@ -70,4 +70,4 @@ npm start
 
 Open the browser and go to http://localhost:3000/photos
 
-Check the network speed in the browser console. The first time you load the page, it will take a while to fetch the data from the api. But the next time you load the page, it will be much faster because the data is cached in redis.
+Check the network speed in the browser console. The first time you load the page, it will take a while to fetch the data from the api. But the next time you load the page, it will be much faster because the data is cached in redis...
