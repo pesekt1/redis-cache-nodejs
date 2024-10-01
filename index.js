@@ -28,14 +28,19 @@ await client.connect().then(() => {
 app.get("/photos", async (req, res) => {
   //first read from cache - redis database
   const photos = await client.get("photos");
-  if (photos) res.send(photos);
+  if (photos) {
+    console.log("Data fetched from cache");
+    res.send(photos);
+  }
   //if not in cache, fetch from api and store in cache
   else {
     const { data } = await axios.get(
       "https://jsonplaceholder.typicode.com/photos"
     );
+    console.log("Data fetched from API");
 
     await client.set("photos", JSON.stringify(data));
+    console.log("Data stored in cache");
     res.json(data);
   }
 });
