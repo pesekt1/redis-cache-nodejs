@@ -7,6 +7,7 @@ This is a simple example of how to use Redis as a cache with node.js.
 ## Dependencies
 
 - redis
+  docker container: docker run --name my-redis-container -p 6379:6379 -d redis redis-server --appendonly yes
 - axios
 - express
 
