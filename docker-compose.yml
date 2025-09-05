@@ -3,7 +3,6 @@ version: "3.9"
 services:
   app:
     build: .
-    container_name: server
     ports:
       - "3000:3000"
     depends_on:
@@ -13,7 +12,6 @@ services:
 
   redis:
     image: redis:latest
-    container_name: redis
     ports:
       - "6379:6379"
     healthcheck:
@@ -23,9 +21,17 @@ services:
       retries: 10
 
   redisinsight:
-    image: redislabs/redisinsight:latest
-    container_name: redisinsight
+    image: redislabs/redisinsight:1.14.0
     ports:
       - "8001:8001"
     depends_on:
       - redis
+    restart: always
+    environment:
+      - ACCEPT_EULA=Y
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8001"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
