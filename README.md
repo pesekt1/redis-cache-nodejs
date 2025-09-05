@@ -14,6 +14,7 @@ This is a simple example of how to use Redis as a cache with node.js.
 ## Demo
 
 Import the dependencies and create an express server app:
+
 ```js
 import express from "express";
 import axios from "axios";
@@ -23,6 +24,7 @@ const app = express();
 ```
 
 Create a redis client:
+
 ```js
 const client = createClient();
 
@@ -36,6 +38,7 @@ await client.connect().then(() => {
 ```
 
 If you have a cloud redis instance, you can connect to it using the following:
+
 ```js
 const client = redis.createClient({
   socket: {
@@ -47,6 +50,7 @@ const client = redis.createClient({
 ```
 
 Create a cached endpoint:
+
 ```js
 app.get("/photos", async (req, res) => {
   //first read from cache - redis database
@@ -65,8 +69,9 @@ app.get("/photos", async (req, res) => {
 ```
 
 Run the app:
+
 ```
-npm start
+docker-compose up
 ```
 
 Open the browser and go to http://localhost:3000/photos
