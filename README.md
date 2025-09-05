@@ -79,3 +79,11 @@ Open the browser and go to http://localhost:3000/photos
 First time, it will fetch from the API and store in cache. Subsequent requests will be served from the cache.
 
 User redisinsight gui to view the data in the redis database.
+
+Try some API calls:
+
+- http://localhost:3000/photos
+- http://localhost:3000/photos/1
+- http://localhost:3000/albums/1/photos
+
+Now check the RedisInsight GUI to see the cached data.
