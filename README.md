@@ -76,4 +76,6 @@ docker-compose up
 
 Open the browser and go to http://localhost:3000/photos
 
-Check the network speed in the browser console. The first time you load the page, it will take a while to fetch the data from the api. But the next time you load the page, it will be much faster because the data is cached in redis...
+First time, it will fetch from the API and store in cache. Subsequent requests will be served from the cache.
+
+User redisinsight gui to view the data in the redis database.
