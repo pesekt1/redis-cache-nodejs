@@ -40,23 +40,57 @@ async function connectWithRetry(retries = 10, delay = 2000) {
   try {
     await connectWithRetry();
 
-    //cached endpoint
+    // Get all photos, cache key: "photos"
     app.get("/photos", async (req, res) => {
-      //first read from cache - redis database
       const photos = await client.get("photos");
       if (photos) {
-        console.log("Data fetched from cache");
+        console.log("Data fetched from cache (all photos)");
         res.send(photos);
-      }
-      //if not in cache, fetch from api and store in cache
-      else {
+      } else {
         const { data } = await axios.get(
           "https://jsonplaceholder.typicode.com/photos"
         );
-        console.log("Data fetched from API");
-
+        console.log("Data fetched from API (all photos)");
         await client.set("photos", JSON.stringify(data));
-        console.log("Data stored in cache");
+        console.log("Data stored in cache (all photos)");
+        res.json(data);
+      }
+    });
+
+    // Get a single photo by id, cache key: "photo:{id}"
+    app.get("/photos/:id", async (req, res) => {
+      const id = req.params.id;
+      const cacheKey = `photo:${id}`;
+      const photo = await client.get(cacheKey);
+      if (photo) {
+        console.log(`Data fetched from cache (photo ${id})`);
+        res.send(photo);
+      } else {
+        const { data } = await axios.get(
+          `https://jsonplaceholder.typicode.com/photos/${id}`
+        );
+        console.log(`Data fetched from API (photo ${id})`);
+        await client.set(cacheKey, JSON.stringify(data));
+        console.log(`Data stored in cache (photo ${id})`);
+        res.json(data);
+      }
+    });
+
+    // Get photos by albumId, RESTful: "/albums/:albumId/photos", cache key: "photos:album:{albumId}"
+    app.get("/albums/:albumId/photos", async (req, res) => {
+      const albumId = req.params.albumId;
+      const cacheKey = `photos:album:${albumId}`;
+      const albumPhotos = await client.get(cacheKey);
+      if (albumPhotos) {
+        console.log(`Data fetched from cache (album ${albumId})`);
+        res.send(albumPhotos);
+      } else {
+        const { data } = await axios.get(
+          `https://jsonplaceholder.typicode.com/albums/${albumId}/photos`
+        );
+        console.log(`Data fetched from API (album ${albumId})`);
+        await client.set(cacheKey, JSON.stringify(data));
+        console.log(`Data stored in cache (album ${albumId})`);
         res.json(data);
       }
     });
