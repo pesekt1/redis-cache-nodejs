@@ -1,8 +1,9 @@
-import express from "express";
 import axios from "axios";
+import express from "express";
 import { createClient } from "redis"; //https://www.npmjs.com/package/redis
 
 const app = express();
+app.use(express.json()); // Add this to parse JSON bodies
 
 const redisHost = "redis";
 const redisPort = 6379;
@@ -93,6 +94,18 @@ async function connectWithRetry(retries = 10, delay = 2000) {
         console.log(`Data stored in cache (album ${albumId})`);
         res.json(data);
       }
+    });
+
+    // POST endpoint to add a new photo and update the cache
+    app.post("/photos", async (req, res) => {
+      const newPhoto = req.body;
+      // Simulate creation (since the API is read-only)
+      // In a real app, you'd POST to the API and get the created resource
+      newPhoto.id = Date.now(); // Mock ID
+      // Invalidate the "photos" cache
+      await client.del("photos");
+      console.log("Photos cache invalidated due to new photo creation");
+      res.status(201).json(newPhoto);
     });
 
     app.listen(3000, () => {
